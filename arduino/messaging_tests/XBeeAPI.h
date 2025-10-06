@@ -4,20 +4,26 @@
 #include <Arduino.h>
 #include <SoftwareSerial.h>
 
-
-// API Frame (AP = 1, no escape characters) Structure
+// A class to facilitate sending and receiving API frames between an Arduino and an XBee module.
+// Jeff Groff, Starlight Studio, 2025
 
 /*
-Start Delimiter 0x7E - Length (2 bytes, MSB LSB) - Frame Data Field - Checksum (1 byte)
 
-Length Bytes - contain the number of bytes in the frame data field
+API Frame Structure (AP mode 1 - no escape characters):
 
-Frame Data Field format - the data is our message
-Frame Type 0x2D - Frame ID 0x00 (this value disables the return of a TX status frame) - Destination Interface 0x02 (micropython) - Data
+Start Delimiter: 0x7E
+Length (2 bytes, MSB LSB): contains the number of bytes in the Frame Data Field
+Frame Data Field: the data is our message
+Checksum (1 byte): calculated as 0xFF - (8-bit sum of all bytes of the Frame Data Field)
 
-Checksum Byte = 0XFF - 8-bit sum of frame data field bytes
+Frame Data Field Structure: 
+
+Frame Type: 0x2D
+Frame ID: 0x00 (this value disables the return of a TX status frame)
+Destination Interface: 0x02 (micropython)
+Message: the data we want to relay to the XBee
+
 */
-
 
 #define MESSAGE_BUFFER_SIZE 256
 #define BUFFER_SIZE 512
