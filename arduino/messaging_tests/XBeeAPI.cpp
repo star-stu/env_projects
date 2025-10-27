@@ -3,7 +3,7 @@
 
 XBeeAPI::XBeeAPI(uint8_t RX, uint8_t TX)
 {
-
+  // create SoftwareSerial object
   xbee = new SoftwareSerial(RX, TX);
   
 }
